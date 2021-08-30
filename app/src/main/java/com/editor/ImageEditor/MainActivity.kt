@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
     private  val imageEditorLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
-            Toast.makeText(this, "Done! Check now", Toast.LENGTH_SHORT).show()
+            Log.w(TAG, "Image editor launched successfully")
         }
     }
     private val STORAGE_PERMISSION_CODE = 1
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
     private fun launchPhotoEditor(sourceImagePath: String, outputFilePath: String){
         try {
             val intent = ImageEditorIntentBuilder(this, sourceImagePath, outputFilePath)
-                .withAddText() // Add the features you need
+                .withAddText()
                 .withPaintFeature()
                 .withFilterFeature()
                 .withRotateFeature()
@@ -176,7 +176,7 @@ class MainActivity : AppCompatActivity() {
                 var txt = ""
                 obj.labels.forEachIndexed { index2, label ->
                     println(label.text)
-                    txt += label.text + " " + label.confidence.toString().split(".")[0]
+                    txt += label.text + " " + ((label.confidence*100f).toString().split(".")[0]) + "%"
                 }
                 if (txt.equals("")){
                     txt = "Can not detect"
